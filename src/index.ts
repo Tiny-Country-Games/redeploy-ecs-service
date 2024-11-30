@@ -3,6 +3,12 @@ import { ECS, waitUntilServicesStable, UpdateServiceCommand, DescribeServicesCom
 
 const CLUSTER_NAME = core.getInput('cluster', { required: true, trimWhitespace: true });
 const SERVICE_NAME = core.getInput('service', { required: true, trimWhitespace: true });
+const MAX_WAIT_MINUTES = Number(core.getInput('max-wait-minutes', { trimWhitespace: true }));
+if (isNaN(MAX_WAIT_MINUTES)) {
+  core.setFailed('max-wait-minutes must be a number');
+  process.exit(1);
+}
+
 let ecs: ECS;
 
 let done: boolean = false;
@@ -36,6 +42,11 @@ const logEvents = async (preDeployTime: Date) => {
 
 (async () => {
   try {
+    const waitSeconds = Math.floor(MAX_WAIT_MINUTES * 60);
+    if (waitSeconds <= 0) {
+      core.setFailed('max-wait-minutes must be greater than 0');
+      process.exit(1);
+    }
     ecs = new ECS();
     console.log(`${new Date()} Force new deployment for service ${SERVICE_NAME} in cluster ${CLUSTER_NAME}`);
     const preDeployTime = new Date();
@@ -47,7 +58,7 @@ const logEvents = async (preDeployTime: Date) => {
       })
     );
     const waiter = waitUntilServicesStable(
-      { client: ecs, maxWaitTime: 100000 },
+      { client: ecs, maxWaitTime: waitSeconds },
       { cluster: CLUSTER_NAME, services: [SERVICE_NAME] }
     );
     const eventLogger = logEvents(preDeployTime);

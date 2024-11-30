@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@types/node": "^20",
     "esbuild": "^0.24.0",
     "eslint": "^9.16.0",
     "globals": "^15.12.0",

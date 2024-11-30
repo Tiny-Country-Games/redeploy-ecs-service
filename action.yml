@@ -9,6 +9,10 @@ inputs:
   service:
     description: 'The name of the ECS service'
     required: true
+  max-wait-minutes:
+    description: 'The maximum number of minutes to wait for the deployment to complete'
+    required: false
+    default: 10
 
 runs:
   using: node20
