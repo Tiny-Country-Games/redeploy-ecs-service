@@ -22,6 +22,7 @@ const describeEvents = async (preDeployTime: Date) => {
 
 const logEvents = async (preDeployTime: Date) => {
   const seenEvents = new Set<string>();
+  core.startGroup('Service events');
   while (!done) {
     const events = (await describeEvents(preDeployTime)).filter((event) => !seenEvents.has(event.id ?? ''));
     for (const event of events) {
@@ -30,6 +31,7 @@ const logEvents = async (preDeployTime: Date) => {
     }
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
+  core.endGroup();
 };
 
 (async () => {
