@@ -1,0 +1,7 @@
+name: Redeploy ECS Service
+description: |-
+  Force a new deployment on an ECS service to pull the latest image/environment variables.
+
+runs:
+  using: node20
+  main: action.js
