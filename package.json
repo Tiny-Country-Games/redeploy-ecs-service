@@ -1,7 +1,7 @@
 {
   "scripts": {
     "format": "prettier --write .",
-    "bundle": "esbuild src/index.ts --bundle --outfile=action.js --minify"
+    "bundle": "esbuild src/index.ts --bundle --outfile=action.js --minify --platform=node --target=node20"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
@@ -11,5 +11,9 @@
     "prettier": "3.4.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@aws-sdk/client-ecs": "^3.699.0"
   }
 }
