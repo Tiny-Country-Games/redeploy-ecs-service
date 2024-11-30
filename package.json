@@ -1,6 +1,8 @@
 {
   "scripts": {
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
     "bundle": "esbuild src/index.ts --bundle --outfile=action.js --minify --platform=node --target=node20"
   },
   "devDependencies": {
